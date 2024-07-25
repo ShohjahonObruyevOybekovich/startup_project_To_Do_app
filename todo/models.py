@@ -6,7 +6,7 @@ from account.models import CustomUser
 import json
 
 class Task(models.Model):
-    uuid = models.UUIDField(primary_key=True)
+    uuid = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     icon = models.CharField(max_length=255)
     priority = models.CharField(max_length=255,default=0)
@@ -23,7 +23,7 @@ class Task(models.Model):
 
 
 class Expense(models.Model):
-    uuid = models.UUIDField(primary_key=True)
+    uuid = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -32,7 +32,7 @@ class Expense(models.Model):
     is_income = models.BooleanField(default=False)
 
 class Event(models.Model):
-    uuid = models.UUIDField(primary_key=True)
+    uuid = models.UUIDField(primary_key=True,default=uuid.uuid4, editable=False)
     event_name = models.CharField(max_length=255)
     repeatTime = models.CharField(max_length=255)
     selectIconIndex = models.IntegerField(default=0)

@@ -22,10 +22,10 @@ class ConfirmationCodeSerializer(serializers.Serializer):
 class PasswordResetRequestSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
-
-class PasswordResetLoginSerializer(serializers.Serializer):
-    new_password = serializers.CharField()
-
+class PasswordResetCodeSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    code = serializers.CharField(max_length=6)
+    new_password = serializers.CharField(write_only=True)
 
 
 from account.permission import EmailAuthBackend

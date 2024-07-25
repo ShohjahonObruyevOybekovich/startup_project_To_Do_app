@@ -10,6 +10,7 @@ from rest_framework.generics import (
 from rest_framework.generics import RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
+from account.serializers import UserSerializer
 from todo.permission import IsOwner
 from todo.serializers import *
 
@@ -19,6 +20,7 @@ class TaskListView(ListAPIView):
     serializer_class = TaskListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     filter_backends = (DjangoFilterBackend,)
+    search_fields = ('title', 'description')
 
 
 class TaskCreateAPIView(CreateAPIView):
@@ -56,10 +58,11 @@ class TaskDeleteAPIView(DestroyAPIView):
 class ExpenseListView(ListAPIView):
     queryset = Expense.objects.all()
     serializer_class = ExpenseListSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
     filter_backends = (DjangoFilterBackend,)
-    filterset_fields = ('name', 'description')
+    # filterset_fields = ('name', 'description')
+    search_fields = ('event_name', 'addNote','startDate')
 
 
 class ExpenseCreateAPIView(CreateAPIView):
@@ -74,8 +77,50 @@ class ExpenseUpdateAPIView(UpdateAPIView):
     serializer_class = ExpenseUpdateSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
-
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, pk=self.kwargs.get('pk'))
+        self.check_object_permissions(self.request, obj)
+        return obj
 class ExpenseDeleteAPIView(DestroyAPIView):
     queryset = Expense.objects.all()
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, pk=self.kwargs.get('pk'))
+        self.check_object_permissions(self.request, obj)
+        return obj
+
+class EventCreateAPIView(CreateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventCreateSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,)
+
+class EventUpdateAPIView(UpdateAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventUpdateSerializer
+    permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, pk=self.kwargs.get('pk'))
+        self.check_object_permissions(self.request, obj)
+        return obj
+class EventDeleteAPIView(DestroyAPIView):
+    queryset = Event.objects.all()
+    permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = get_object_or_404(queryset, pk=self.kwargs.get('pk'))
+        self.check_object_permissions(self.request, obj)
+        return obj
+class EventListAPIView(ListAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventListSerializer
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = (TokenAuthentication,IsOwner)
+
+    search_fields = ('event_name', 'addNote','startDate')

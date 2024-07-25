@@ -42,7 +42,7 @@ urlpatterns = [
     path('auth/',include('account.urls')),
     path('api-todo/', include('todo.urls')),
     path('notifications-ws/', include("Notifications.urls")),
-    (r'^auth/', include('rest_framework_social_oauth2.urls')),
+    # (r'^auth/', include('rest_framework_social_oauth2.urls')),
 
 
     path('docs<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
