@@ -12,6 +12,7 @@ services:
     environment:
       - TZ=Asia/Tashkent
 
+
   nginx:
     build: ./nginx
     ports:
@@ -23,6 +24,8 @@ services:
       - web
     environment:
       - TZ=Asia/Tashkent
+
+
 
 volumes:
   media_file:

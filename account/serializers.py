@@ -74,12 +74,11 @@ class UserUpdateSerializer(serializers.ModelSerializer):
             user.set_password(attrs['password'])
             user.save()
         return attrs
-
 class UserListSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ['uuid',"image",'email',"full_name", 'password','country']
+        fields = ['uuid',"image",'email',"full_name",'country']
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = ('image',"full_name", 'email',  'phone','country')
+        fields = ('uuid','image',"full_name", 'email',  'phone','country')

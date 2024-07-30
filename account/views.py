@@ -30,7 +30,7 @@ from rest_framework.generics import CreateAPIView, GenericAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from passlib.context import CryptContext
-
+from account.tasks import send_password_reset_email
 User = get_user_model()
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
@@ -56,7 +56,6 @@ class RegisterAPIView(CreateAPIView):
         message = f'Your confirmation code is: {confirmation_code}'
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], fail_silently=False)
 
-
         # Save the data in session
         request.session['registration_data'] = {
             'email': email,
@@ -76,6 +75,7 @@ class ConfirmationCodeAPIView(GenericAPIView):
         confirm_code = request.data.get('confirm_code')
         registration_data = request.session.get('registration_data')
         print(registration_data.get('email'))
+        print(registration_data.get('confirmation_code'))
 
         if not registration_data or registration_data.get('email') != email:
             return Response({'message': 'Invalid or expired confirmation code!'}, status=status.HTTP_400_BAD_REQUEST)
@@ -103,7 +103,7 @@ class PasswordResetRequestView(GenericAPIView):
     def generate_confirmation_code(self):
         return random.randrange(10000, 99999)
 
-    def post(self, request):
+    def post(self, request, send_password_reset_email=None):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             email = serializer.validated_data['email']
@@ -118,7 +118,9 @@ class PasswordResetRequestView(GenericAPIView):
 
             subject = 'Password Reset Request'
             message = f'Your password reset code is: {reset_code}'
-            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [email], fail_silently=False)
+
+            # Call the Celery task to send the email
+            send_password_reset_email.delay(subject, message, [email])
 
             return Response({'success': 'Password reset code sent'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

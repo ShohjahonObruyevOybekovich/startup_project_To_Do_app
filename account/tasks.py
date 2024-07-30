@@ -1,26 +1,8 @@
+# myapp/tasks.py
 from celery import shared_task
-
 from django.core.mail import send_mail
-
-
-@shared_task
-def send_forget_password(email, reset_link):
-    send_mail(
-        'Password Reset',
-        f'Click the following link to reset your password:   {reset_link}',
-        'from@example.com',
-        [email],
-        fail_silently=False,
-    )
-    return "Done"
-
+from django.conf import settings
 
 @shared_task
-def send_email(email, confirmation_code):
-    send_mail(
-        'Registration Confirmation Code',
-        f'Your confirmation code is: {confirmation_code}',
-        'from@example.com',
-        [email],
-        fail_silently=False,
-    )
+def send_password_reset_email(subject, message, recipient_list):
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, recipient_list)
