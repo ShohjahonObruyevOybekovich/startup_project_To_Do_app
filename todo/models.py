@@ -1,3 +1,4 @@
+import datetime
 import uuid
 from django.db import models
 from django.db.models import UniqueConstraint
@@ -12,8 +13,8 @@ class Task(models.Model):
     priority = models.CharField(max_length=255,default=0)
     icon_color = models.CharField(max_length=255)
     notes = models.CharField(max_length=255)
-    start_date = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField(auto_now=True)
+    start_date = models.DateTimeField(default=datetime.datetime.now)
+    due_date = models.DateTimeField(default=timezone.now()+timezone.timedelta(days=1))
     completed = models.BooleanField(default=False)
     geoPoint = models.CharField(max_length=255)
     created_at = models.DateField(auto_now_add=True)
@@ -37,10 +38,10 @@ class Event(models.Model):
     repeatTime = models.CharField(max_length=255)
     selectIconIndex = models.IntegerField(default=0)
     addNote = models.CharField(max_length=255,null=True)
-    startDate = models.DateField(auto_now_add=True)
-    endDate = models.DateField(auto_now=True)
-    startTime = models.TimeField(auto_now_add=True)
-    endTime = models.TimeField(auto_now=True)
+    startDate = models.DateField(default=datetime.date.today)
+    endDate = models.DateField(default=datetime.date.today)
+    startTime = models.TimeField(default=datetime.time())
+    endTime = models.TimeField(default=datetime.time())
     is_all_day = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

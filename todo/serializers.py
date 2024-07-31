@@ -43,7 +43,8 @@ class ExpenseListSerializer(serializers.ModelSerializer):
 class EventCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
+        fields = ('uuid','event_name','repeatTime','selectIconIndex','addNote'
+                  ,'startDate','endDate','startTime','endTime','is_all_day','created_at')
 
 class EventUpdateSerializer(serializers.ModelSerializer):
     class Meta:
