@@ -125,3 +125,12 @@ class EventListAPIView(ListAPIView):
     authentication_classes = (TokenAuthentication,)
 
     search_fields = ('event_name', 'addNote','startDate')
+
+
+class IconListAPIView(ListAPIView):
+    queryset = Icon.objects.all()
+    serializer_class = IconListSerializer
+    permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
+    search_fields = ('icon_name', 'addNote','startDate')
+

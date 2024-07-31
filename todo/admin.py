@@ -13,3 +13,6 @@ class VersionsAdmin(admin.ModelAdmin):
 class VersionsAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Icon)
+class VersionsAdmin(admin.ModelAdmin):
+    pass

@@ -19,5 +19,5 @@ urlpatterns = [
     path('event-create/', EventCreateAPIView.as_view(), name='event_create'),
     path('event-update/<int:uuid>/', EventUpdateAPIView.as_view(), name='event_update'),
     path('event-delete/<int:uuid>/', EventDeleteAPIView.as_view(), name='event_delete'),
-
+    path('icon-list/',IconListAPIView.as_view(), name='icon_list'),
 ]
