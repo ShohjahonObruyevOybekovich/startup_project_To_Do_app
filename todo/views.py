@@ -19,6 +19,7 @@ class TaskListView(ListAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
     filter_backends = (DjangoFilterBackend,)
     search_fields = ('title', 'description')
 
@@ -120,7 +121,7 @@ class EventDeleteAPIView(DestroyAPIView):
 class EventListAPIView(ListAPIView):
     queryset = Event.objects.all()
     serializer_class = EventListSerializer
-    permission_classes = (IsAuthenticated,)
-    authentication_classes = (TokenAuthentication,IsOwner)
+    permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
 
     search_fields = ('event_name', 'addNote','startDate')
