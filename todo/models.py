@@ -45,6 +45,6 @@ class Event(models.Model):
 class Icon(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='icons/')
+    image = models.FileField(upload_to='icons/')
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)

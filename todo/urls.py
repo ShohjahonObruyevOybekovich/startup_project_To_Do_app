@@ -5,6 +5,7 @@ from todo.views import *
 
 urlpatterns = [
     path('task-list/',TaskListView.as_view(), name='user_list'),
+    path('task-not-complated-list/',TaskNotCompleteView.as_view(), name='task_not_complated_list'),
     path('task-create/', TaskCreateAPIView.as_view(), name='task_create'),
     path('task-update/<int:uuid>/', TaskUpdateAPIView.as_view(), name='task_update'),
     path('task-delete/<int:uuid>/', TaskDeleteAPIView.as_view(), name='task_delete'),
@@ -20,4 +21,5 @@ urlpatterns = [
     path('event-update/<int:uuid>/', EventUpdateAPIView.as_view(), name='event_update'),
     path('event-delete/<int:uuid>/', EventDeleteAPIView.as_view(), name='event_delete'),
     path('icon-list/',IconListAPIView.as_view(), name='icon_list'),
+
 ]

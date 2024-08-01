@@ -20,10 +20,17 @@ class TaskListView(ListAPIView):
     serializer_class = TaskListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
-    filter_backends = (DjangoFilterBackend,)
-    search_fields = ('title', 'description')
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    search_fields = ('title', 'notes')
 
-
+class TaskNotCompleteView(ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskListSerializer
+    permission_classes = (IsAuthenticated,IsOwner)
+    authentication_classes = (TokenAuthentication,)
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    search_fields = ('title', 'notes')
+    filterset_fields = ('completed',)
 class TaskCreateAPIView(CreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
@@ -61,8 +68,8 @@ class ExpenseListView(ListAPIView):
     serializer_class = ExpenseListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
-    filter_backends = (DjangoFilterBackend,)
-    # filterset_fields = ('name', 'description')
+    filter_backends = (DjangoFilterBackend,SearchFilter)
+    # filterset_fields = ('name', 'notes')
     search_fields = ('event_name', 'addNote','startDate')
 
 
@@ -123,7 +130,7 @@ class EventListAPIView(ListAPIView):
     serializer_class = EventListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
-
+    filter_backends = (DjangoFilterBackend,SearchFilter)
     search_fields = ('event_name', 'addNote','startDate')
 
 
@@ -132,5 +139,6 @@ class IconListAPIView(ListAPIView):
     serializer_class = IconListSerializer
     permission_classes = (IsAuthenticated,IsOwner)
     authentication_classes = (TokenAuthentication,)
+    filter_backends = (DjangoFilterBackend,SearchFilter)
     search_fields = ('icon_name', 'addNote','startDate')
 
